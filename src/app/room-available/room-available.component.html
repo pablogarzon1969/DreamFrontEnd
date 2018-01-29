@@ -1,0 +1,200 @@
+<main>
+  <section id="content">
+    <app-navbar>
+
+    </app-navbar>
+    <section id="mainContent">
+
+
+
+      <div class="module">
+        <div class="headModule">
+          <h1></h1>
+        </div>
+        <div class="bodyModule">
+          <br>
+          <br>
+          <div class="row" style="margin-top:5%">
+            <div class="col-sm-6 col-md-4 col-md-offset-4">
+              <div class="panel panel-default boxshadow">
+                <div class="panel-heading" style="color:#ffffff; background-color: #3276b1;">
+                  <strong> Habitaciones Disponibles</strong>
+                </div>
+                <div class="panel-body">
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createRoomAvailableModal">
+                    Crear
+                  </button>
+                  <br />
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>No.</th>
+                        <th>No. Habitaciones</th>
+                        <th>Fecha</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let roomAvailable of roomsAvailables">
+                        <td>{{roomAvailable.id}}</td>
+                        <td>{{roomAvailable.totalHabitacionesDisponibles}}</td>
+                        <td>{{roomAvailable.fecha | date :'dd/MM/yyyy'}}</td>
+                        <td>
+                          <button title="Edit" class="btn btn-primary" data-toggle="modal" data-target="#UpdateModal" (click)="editRoomAvailable(roomAvailable.id,roomAvailable.totalHabitacionesDisponibles,roomAvailable.fecha)">Edit</button>
+                          <button title="Delete" class="btn btn-danger">Delete</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+          <!-- Modal Actualizacion de Habitaciones-->
+          <div class="modal fade" id="UpdateModal" tabindex="-1" role="dialog" aria-labelledby="UpdateModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="UpdateModalLabel"></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+
+                  <div class="row" style="margin-top:5%">
+                    <div class="col-sm-12">
+                      <div class="panel panel-default boxshadow">
+                        <div class="panel-heading" style="color:#ffffff; background-color: #3276b1;">
+                          <strong> Actualizar Habitacion</strong>
+                        </div>
+                        <div class="panel-body">
+                          <br />
+                          <form role="form">
+                            <fieldset>
+                              <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4"></div>
+                              </div>
+
+                              <br>
+                              <div class="form-group">
+                                <div class="input-group">
+                                  <!-- No.{{editid}}-->
+
+                                  <div class="input-group">
+                                    <span class="input-group-addon">
+                                      <i class="fa fa-user">No.</i>
+                                    </span>
+                                    <input class="form-control txtheight" type="text" name="idroomAvailable" [(ngModel)]="newRoomAvailable.id" disabled>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <br />
+                              <div class="form-group">
+                                <div class="input-group">
+                                  <span class="input-group-addon">
+                                    <i class="fa fa-user">Total Habitaciones</i>
+                                  </span>
+                                  <input class="form-control txtheight" type="text" name="application" [(ngModel)]="newRoomAvailable.totalHabitacionesDisponibles">
+                                </div>
+                              </div>
+                              <br />
+
+                              <div class="form-group">
+                                <div class="input-group">
+                                  <span class="input-group-addon">
+                                    <i class="fa fa-user">Fecha</i>
+                                  </span>
+                                  <input class="form-control txtheight" type="text" name="fecha" [(ngModel)]="newRoomAvailable.fecha" disabled>
+                                </div>
+                              </div>
+                            </fieldset>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="Reload()">Cerrar</button>
+                  <button type="button" class="btn btn-primary" (click)="updateRoomAvailable(newRoomAvailable)">Guardar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Modal Creacion de Habitaciones-->
+          <div class="modal fade" id="createRoomAvailableModal" tabindex="-1" role="dialog" aria-labelledby="createRoomAvailableLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="createRoomAvailableLabel"></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+
+
+                  <div class="row" style="margin-top:5%">
+                    <div class="col-sm-12">
+                      <div class="panel panel-default boxshadow">
+                        <div class="panel-heading" style="color:#ffffff; background-color: #3276b1;">
+                          <strong> Crear Habitacion</strong>
+                        </div>
+                        <div class="panel-body">
+                          <br />
+                          <form role="form">
+                            <fieldset>
+                              <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4"></div>
+                              </div>
+
+
+
+
+                              <div class="form-group" *ngIf="hotelUser!=undefined || hotelUser!=null">
+                                <input class="form-control txtheight" type="text" name="idHotelCreate" [(ngModel)]="hotelUser[0].idHotel" disabled>
+                              </div>
+                              <div class="form-group" *ngIf="hotelUser!=undefined || hotelUser!=null">
+                                <input class="form-control txtheight" type="text" name="nameHotelCreate" [(ngModel)]="hotelUser[0].nameHotel" disabled>
+                              </div>
+
+
+                              <div class="form-group">
+                                <label class="control-label col-sm-4" for="ciudad">Total Habitacion:</label>
+                                <input class="form-control txtheight" type="text" name="application" [(ngModel)]="newRoomAvailable.totalHabitacionesDisponibles">
+                              </div>
+                              <br />
+                            </fieldset>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="ReloadClose()">Cerrar</button>
+                  <button type="button" class="btn btn-primary" (click)="CreateRoomAvailable()">Guardar</button>
+                </div>
+                <div *ngIf="msj" class="alert alert-danger">{{msj}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <app-footer> </app-footer>
+</main>

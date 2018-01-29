@@ -1,0 +1,231 @@
+<main>
+  <section id="content">
+    <app-navbar>
+
+    </app-navbar>
+    <section id="mainContent">
+      <div class="module">
+        <div class="headModule">
+        </div>
+        <div class="bodyModule">
+          <div class="row" style="margin-top:5%">
+            <div class="col-sm-6 col-md-4 col-md-offset-4">
+              <div class="panel panel-default boxshadow">
+                <div class="panel-heading" style="color:#ffffff; background-color: #3276b1;">
+                  <strong> Ciudad</strong>
+                </div>
+                <div class="panel-body">
+                  <div class="form-group">
+                    Pais
+                    <select class="form-control" name="profession" [(ngModel)]="country">
+                      <option value="0">Debe Seleccionar un Pais</option>
+                      <option *ngFor="let country of countries" [value]="country.id">{{country.nombre}}</option>
+                    </select>
+                  </div>
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createCityModal">
+                    Crear
+                  </button>
+                  <button type="button" class="btn btn-primary" (click)="ShowtAllCitybyCountry(country)">
+                    Buscar
+                  </button>
+                  <br />
+                  <br />
+                  <div class="table-responsive">
+                    <table class="table table-bordered" *ngIf="cities!=null ||cities> 0 ">
+                      <thead>
+                        <tr>
+                          <th>No.</th>
+                          <th>Nombre</th>
+                          <th>Estado</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let city of cities">
+                          <td>{{city.id}}</td>
+                          <td>{{city.name}}</td>
+                          <td>
+                            <label class="form-check-label">
+                              <input class="form-check-input" type="checkbox" [checked]="city.active">
+                            </label>
+                          </td>
+                          <td>
+                            <button title="Edit" class="btn btn-primary" data-toggle="modal" data-target="#updateCityModal" (click)="editCity(city.id,city.name,city.active)">Edit</button>
+                            <button title="Delete" class="btn btn-danger">Delete</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <form role="form">
+            <fieldset>
+              <div class="row">
+                <div class="col-xs-2">
+                  Pais
+                  <select class="form-control" name="profession" [(ngModel)]="country">
+                    <option value="0">Debe Seleccionar un Pais</option>
+                    <option *ngFor="let country of countries" [value]="country.id">{{country.nombre}}</option>
+                  </select>
+
+                </div>
+                <br>
+                <div class="col-xs-8">
+                  <button type="button" class="btn btn-primary" (click)="ShowtAllCitybyCountry(country)">
+                    Buscar
+                  </button>
+                </div>
+              </div>
+            </fieldset>
+          </form>-->
+          <br>
+
+          <!-- Modal Creacion de ciudad-->
+          <div class="modal fade" id="createCityModal" tabindex="-1" role="dialog" aria-labelledby="createCityLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="createCityLabel"></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="row" style="margin-top:5%">
+                    <div class="col-sm-12">
+                      <div class="panel panel-default boxshadow">
+                        <div class="panel-heading" style="color:#ffffff; background-color: #3276b1;">
+                          <strong> Crear Ciudad</strong>
+                        </div>
+                        <div class="panel-body">
+                          <br />
+                          <form role="form">
+                            <fieldset>
+                              <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4"></div>
+                              </div>
+                              <br />
+                              <div class="form-group">
+                                <div class="input-group">
+                                  <span class="input-group-addon">
+                                    <i class="fa fa-user">Pais</i>
+                                  </span>
+                                  <select class="form-control" id="slcPais" name="slcPais" [(ngModel)]="newCity.idCountry">
+                                    <option value="0">Debe Seleccionar un Pais</option>
+                                    <option *ngFor="let country of countries" [value]="country.id">{{country.nombre}}</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <br />
+                              <div class="form-group">
+                                <div class="input-group">
+                                  <span class="input-group-addon">
+                                    <i class="fa fa-user">Nombre</i>
+                                  </span>
+                                  <input class="form-control txtheight" type="text" name="country" [(ngModel)]="newCity.name">
+                                </div>
+                              </div>
+                              <br />
+                              <div class="col-auto">
+                                <div class="form-check mb-2 mb-sm-0">
+                                  <label class="control control--checkbox">
+                                    <input type="checkbox" name="active" [(ngModel)]="newCity.active">Activo
+                                  </label>
+                                </div>
+                              </div>
+                            </fieldset>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="Reload()">Cerrar</button>
+                  <button type="button" class="btn btn-primary" (click)="CreateCity(newCity)">Guardar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Modal Actualizacion de ciudad-->
+          <div class="modal fade" id="updateCityModal" tabindex="-1" role="dialog" aria-labelledby="updateCityLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="updateCityLabel"></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+
+                  <div class="row" style="margin-top:5%">
+                    <div class="col-sm-12">
+                      <div class="panel panel-default boxshadow">
+                        <div class="panel-heading" style="color:#ffffff; background-color: #3276b1;">
+                          <strong> Actualizar Ciudad</strong>
+                        </div>
+                        <div class="panel-body">
+                          <br />
+                          <form role="form">
+                            <fieldset>
+                              <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4"></div>
+                              </div>
+                              <br>
+                              <div class="form-group">
+                                <div class="input-group">
+                                  <div class="input-group">
+                                    <span class="input-group-addon">
+                                      <i class="fa fa-user">No.</i>
+                                    </span>
+                                    <input class="form-control txtheight" type="text" name="idcityupdate" [(ngModel)]="newCity.id" disabled>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <br />
+                              <div class="form-group">
+                                <div class="input-group">
+                                  <span class="input-group-addon">
+                                    <i class="fa fa-user">Nombre</i>
+                                  </span>
+                                  <input class="form-control txtheight" type="text" name="citynameupdate" [(ngModel)]="newCity.name">
+                                </div>
+                              </div>
+                              <br />
+                              <div class="col-auto">
+                                <div class="form-check mb-2 mb-sm-0">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" name="activeupdate" [(ngModel)]="newCity.active">Activo
+                                  </label>
+                                </div>
+                              </div>
+                            </fieldset>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="Reload()">Cerrar</button>
+                  <button type="button" class="btn btn-primary" (click)="updateCity(newCity)">Guardar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <app-footer> </app-footer>
+</main>

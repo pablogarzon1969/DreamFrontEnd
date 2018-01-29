@@ -1,0 +1,199 @@
+<main>
+  <section id="content">
+    <app-navbar>
+
+    </app-navbar>
+    <section id="mainContent">
+
+
+
+      <div class="module">
+        <div class="headModule">
+          <h1></h1>
+        </div>
+        <div class="bodyModule">
+
+          <br>
+          <br>
+
+          <div class="row" style="margin-top:5%">
+            <div class="col-sm-6 col-md-4 col-md-offset-4">
+              <div class="panel panel-default boxshadow">
+                <div class="panel-heading" style="color:#ffffff; background-color: #3276b1;">
+                  <strong> Reserva de Habitaciones</strong>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        Pais
+                        <select class="form-control" id="slcPaisBuscar" name="slcPaisBuscar" [(ngModel)]="country" (change)="onChangeCityByCountry($event.target.value)">
+                          <option value="0">Debe Seleccionar un Pais</option>
+                          <option *ngFor="let country of countries" [value]="country.id">{{country.nombre}}</option>
+                        </select>
+
+                      </div>
+
+                      <div class="form-group">
+                        Ciudad
+                            <select class="form-control" id="slcCiudadBuscar" name="slcCiudadBuscar" [(ngModel)]="city" (change)="onChangeHotelByCity($event.target.value)">
+                              <option value="0">Debe Seleccionar un Ciudad</option>
+                              <option *ngFor="let city of cities" [value]="city.id">{{city.name}}</option>
+                            </select>
+
+                      </div>
+
+                      <div class="form-group">
+                        Hotel
+                            <select class="form-control" id="slcHotelBuscar" name="slcHotelBuscar" [(ngModel)]="hotel">
+                              <option value="0">Debe Seleccionar un Hotel</option>
+                              <option *ngFor="let hotel of hotels" [value]="hotel.id">{{hotel.name}}</option>
+                            </select>
+
+                      </div>
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createBookRoomModal">
+                    Crear Reserva
+                  </button>
+                  <button type="button" class="btn btn-primary" (click)="SearchBookRoomHotel(hotel)" >
+                      Buscar Habitacion Hotel
+                    </button>
+                  <br />
+                  <br />
+
+
+
+                  <table class="table table-bordered" *ngIf="bookRoomsHotel!=null ||bookRoomsHotel> 0 ">
+                    <thead>
+                      <tr>
+                        <th>No.</th>
+                       <th>Fecha Reserva</th>
+                        <th>Numero Habitaciones Reservadas</th>
+                        <th>Numero de Pasajeros</th>
+                        <th>Mascota</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let bookRoomHotel of bookRoomsHotel">
+                        <td>{{bookRoomHotel.id}}</td>
+                       <td>{{bookRoomHotel.fecha | date :'dd/MM/yyyy'}}</td>
+                        <td>{{bookRoomHotel.numeroHabitacionReservada}}</td>
+                        <td>{{bookRoomHotel.numeroPasajeros}}</td>
+                        <td>
+                            <label class="form-check-label">
+                              <input class="form-check-input" type="checkbox" [checked]="bookRoomHotel.mascota">
+                            </label>
+                          </td>
+                        <td>
+                          <button title="Edit" class="btn btn-primary" data-toggle="modal" data-target="#UpdateModal" (click)="editRoomAvailable(roomAvailable.id,roomAvailable.totalHabitacionesDisponibles,roomAvailable.fecha)">Edit</button>
+                          <button title="Delete" class="btn btn-danger">Delete</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Modal Creacion de Reserva Habitacion-->
+          <div class="modal fade" id="createBookRoomModal" tabindex="-1" role="dialog" aria-labelledby="createBookRoomModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="createBookRoomModalLabel"></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+
+
+                  <div class="row" style="margin-top:5%">
+                    <div class="col-sm-12">
+                      <div class="panel panel-default boxshadow">
+                        <div class="panel-heading" style="color:#ffffff; background-color: #3276b1;">
+                          <strong> Reservar Habitacion</strong>
+                        </div>
+                        <div class="panel-body">
+                          <br />
+                          <form role="form">
+                            <fieldset>
+                              <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4"></div>
+                              </div>
+
+
+                              <div class="form-group">
+                                  <label class="control-label col-sm-6" for="pais">Pais:</label>
+
+                                <select class="form-control" id="slcPais" name="slcPais" [(ngModel)]="country" (change)="onChangeCityByCountry($event.target.value)">
+                                  <option value="0">Debe Seleccionar un Pais</option>
+                                  <option *ngFor="let country of countries" [value]="country.id">{{country.nombre}}</option>
+                                </select>
+
+                              </div>
+
+                              <div class="form-group">
+                                  <label class="control-label col-sm-6" for="ciudad">Ciudad:</label>
+
+                                <select class="form-control" id="slcCiudad" name="slcCiudad" [(ngModel)]="city" (change)="onChangeHotelByCity($event.target.value)">
+                                  <option value="0">Debe Seleccionar un Ciudad</option>
+                                  <option *ngFor="let city of cities" [value]="city.id">{{city.name}}</option>
+                                </select>
+
+                              </div>
+
+                              <div class="form-group">
+                                  <label class="control-label col-sm-6" for="hotel"> Hotel:</label>
+                                <select class="form-control" id="slcHotel" name="slcHotel" [(ngModel)]="hotel">
+                                  <option value="0">Debe Seleccionar un Hotel</option>
+                                  <option *ngFor="let hotel of hotels" [value]="hotel.id">{{hotel.name}}</option>
+                                </select>
+
+                              </div>
+
+                             <div class="form-group">
+                                <label class="control-label col-sm-6" for="totalhabitacionreservados">Total Habitaciones Reservadas:</label>
+                                <input class="form-control txtheight" type="text" name="application" [(ngModel)]="newBookRoom.numeroHabitacionReservada">
+                              </div>
+
+                               <div class="form-group">
+                                <label class="control-label col-sm-4" for="numeropasajereo">Numero de Pasajeros:</label>
+                                <input class="form-control txtheight" type="text" name="application" [(ngModel)]="newBookRoom.numeroPasajeros">
+                              </div>
+
+                              <div class="col-auto">
+                                <div class="form-check mb-2 mb-sm-0">
+                                  <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" name="active" [(ngModel)]="newBookRoom.mascota">Mascota
+                                  </label>
+                                </div>
+                              </div>
+
+                              <br />
+                            </fieldset>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="Reload()">Cerrar</button>
+                  <button type="button" class="btn btn-primary" (click)="CreateBookRoomHotel(newBookRoom)">Guardar</button>
+                </div>
+                <div *ngIf="error" class="alert alert-danger">{{msj}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <app-footer> </app-footer>
+</main>

@@ -1,0 +1,182 @@
+<main>
+    <section id="content">
+      <app-navbar>
+
+      </app-navbar>
+
+      <section id="mainContent">
+        <div class="module">
+          <div class="headModule">
+          </div>
+          <div class="bodyModule">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createCountryModal">
+              Crear
+            </button>
+            <br>
+            <br>
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>Nombre</th>
+                    <th>Estado</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let country of countries">
+                    <td>{{country.id}}</td>
+                    <td>{{country.nombre}}</td>
+                    <td>
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" [checked]="country.activo">
+                      </label>
+                    </td>
+                    <td>
+                      <button title="Edit" class="btn btn-primary" data-toggle="modal" data-target="#UpdateModal" (click)="editCountry(country.id,country.nombre,country.activo)">Edit</button>
+                      <button title="Delete" class="btn btn-danger">Delete</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- Modal Actualizacion de Pais-->
+            <div class="modal fade" id="UpdateModal" tabindex="-1" role="dialog" aria-labelledby="UpdateModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="UpdateModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+
+                    <div class="row" style="margin-top:5%">
+                      <div class="col-sm-12">
+                        <div class="panel panel-default boxshadow">
+                          <div class="panel-heading" style="color:#ffffff; background-color: #3276b1;">
+                            <strong> Actualizar Pais</strong>
+                          </div>
+                          <div class="panel-body">
+                            <br />
+                            <form role="form">
+                              <fieldset>
+                                <div class="row">
+                                  <div class="col-md-4"></div>
+                                  <div class="col-md-4"></div>
+                                </div>
+
+                                <br>
+                                <div class="form-group">
+                                  <div class="input-group">
+                                    <!-- No.{{editid}}-->
+
+                                    <div class="input-group">
+                                      <span class="input-group-addon">
+                                        <i class="fa fa-user">No.</i>
+                                      </span>
+                                      <input class="form-control txtheight" type="text" name="idcountry" [(ngModel)]="newCountry.id" disabled>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <br />
+                                <div class="form-group">
+                                  <div class="input-group">
+                                    <span class="input-group-addon">
+                                      <i class="fa fa-user">Nombre</i>
+                                    </span>
+                                    <input class="form-control txtheight" type="text" name="country" [(ngModel)]="newCountry.name">
+                                  </div>
+                                </div>
+                                <br />
+                                <div class="col-auto">
+                                  <div class="form-check mb-2 mb-sm-0">
+                                    <label class="form-check-label">
+                                      <input class="form-check-input" type="checkbox" name="active" [(ngModel)]="newCountry.active">Activo
+                                    </label>
+                                  </div>
+                                </div>
+                              </fieldset>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="Reload()">Cerrar</button>
+                    <button type="button" class="btn btn-primary" (click)="updateCountry(newCountry)">Guardar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Modal Creacion de Aplicacion-->
+            <div class="modal fade" id="createCountryModal" tabindex="-1" role="dialog" aria-labelledby="createCountryLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="createCountryLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+
+
+                    <div class="row" style="margin-top:5%">
+                      <div class="col-sm-12">
+                        <div class="panel panel-default boxshadow">
+                          <div class="panel-heading" style="color:#ffffff; background-color: #3276b1;">
+                            <strong> Crear Pais</strong>
+                          </div>
+                          <div class="panel-body">
+                            <br />
+                            <form role="form">
+                              <fieldset>
+                                <div class="row">
+                                  <div class="col-md-4"></div>
+                                  <div class="col-md-4"></div>
+                                </div>
+                                <br />
+                                <div class="form-group">
+                                  <div class="input-group">
+                                    <span class="input-group-addon">
+                                      <i class="fa fa-user">Nombre</i>
+                                    </span>
+                                    <input class="form-control txtheight" type="text" name="country" [(ngModel)]="newCountry.name">
+                                  </div>
+                                </div>
+                                <br />
+                                <div class="col-auto">
+                                  <div class="form-check mb-2 mb-sm-0">
+                                    <label class="control control--checkbox">
+                                      <input type="checkbox" name="active" [(ngModel)]="newCountry.active">Activo
+                                    </label>
+                                  </div>
+                                </div>
+                              </fieldset>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="Reload()">Cerrar</button>
+                    <button type="button" class="btn btn-primary" (click)="CreateCountry(newCountry)">Guardar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+    <app-footer> </app-footer>
+  </main>
